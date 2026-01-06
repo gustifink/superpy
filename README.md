@@ -113,15 +113,6 @@ for _ in range(10000):
     reward = snes.memory[0xDBF]  # Use coins as reward
 ```
 
-## 📊 RAM Maps
-
-Check out our community-maintained RAM maps for popular games:
-- [Super Mario World](ram_maps/super_mario_world.json)
-- [The Legend of Zelda: A Link to the Past](ram_maps/zelda_alttp.json)
-- [Super Metroid](ram_maps/super_metroid.json)
-
-**Contribute your own!** RAM maps are a great first contribution.
-
 ## 🔧 Development
 
 ```bash
