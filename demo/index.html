@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperPy AI Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff, var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border-radius: 100px;
+            font-size: 0.875rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+        }
+
+        .status-dot.connected { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .status-dot.running { background: var(--warning); animation: pulse 1s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 1.5rem;
+        }
+
+        .game-section { display: flex; flex-direction: column; gap: 1rem; }
+
+        .game-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .screen-wrapper {
+            position: relative;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 256 / 224;
+        }
+
+        #game-screen {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        .screen-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        .screen-overlay.hidden { display: none; }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .controls-panel {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .button-grid {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-primary:hover { transform: translateY(-1px); }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .sidebar { display: flex; flex-direction: column; gap: 1rem; }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .panel-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-group { margin-bottom: 0.75rem; }
+
+        .input-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .ai-log {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 0.6rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .log-buttons {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .log-reasoning {
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .log-thinking {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            opacity: 0.8;
+            border-top: 1px solid var(--border);
+            padding-top: 0.4rem;
+            margin-top: 0.3rem;
+            white-space: pre-wrap;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .log-time {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">🎮</div>
+                <h1>SuperPy AI Player</h1>
+            </div>
+            <div class="status-badge">
+                <span class="status-dot" id="status-dot"></span>
+                <span id="status-text">Disconnected</span>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <div class="game-section">
+                <div class="game-container">
+                    <div class="screen-wrapper">
+                        <img id="game-screen" alt="Game Screen">
+                        <div class="screen-overlay" id="screen-overlay">
+                            <div style="text-align:center;color:var(--text-secondary);">
+                                Click "Load Game" to start
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-xpos">0</div>
+                            <div class="stat-label">X Position</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-coins">0</div>
+                            <div class="stat-label">Coins</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-lives">0</div>
+                            <div class="stat-label">Lives</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <div class="button-grid">
+                        <button class="btn btn-secondary" id="btn-load">Load Game</button>
+                        <button class="btn btn-primary" id="btn-ai-play">▶ AI Play</button>
+                        <button class="btn btn-danger" id="btn-stop" disabled>■ Stop</button>
+                        <button class="btn btn-secondary" id="btn-reset">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="card">
+                    <div class="panel-title">AI Configuration</div>
+                    <div class="input-group">
+                        <label>OpenRouter API Key</label>
+                        <input type="password" id="api-key" placeholder="Enter your API key">
+                    </div>
+                    <div class="input-group">
+                        <label>Model</label>
+                        <select id="model-select">
+                            <option value="google/gemini-3-flash-preview" selected>Gemini 3 Flash</option>
+                            <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (Free)</option>
+                            <option value="anthropic/claude-sonnet-4">Claude Sonnet 4</option>
+                            <option value="openai/gpt-4o">GPT-4o</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="btn-ai-step" style="width: 100%;">Single AI Step</button>
+                </div>
+
+                <div class="card" style="flex: 1;">
+                    <div class="panel-title">AI Decision Log (Chain of Thought)</div>
+                    <div class="ai-log" id="ai-log">
+                        <div class="log-entry">
+                            <div class="log-reasoning">Waiting for AI decisions...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws;
+        let running = false;
+        let gameLoaded = false;
+
+        function connect() {
+            ws = new WebSocket(`ws://${window.location.host}/ws`);
+            
+            ws.onopen = () => {
+                document.getElementById('status-dot').classList.add('connected');
+                document.getElementById('status-dot').classList.remove('running');
+                document.getElementById('status-text').textContent = 'Connected';
+            };
+            
+            ws.onclose = () => {
+                document.getElementById('status-dot').classList.remove('connected', 'running');
+                document.getElementById('status-text').textContent = 'Disconnected';
+                running = false;
+                updateButtons();
+                setTimeout(connect, 2000);
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                
+                if (data.type === 'loaded' && data.success) {
+                    document.getElementById('screen-overlay').classList.add('hidden');
+                    gameLoaded = true;
+                    updateButtons();
+                }
+                
+                if (data.type === 'stopped') {
+                    running = false;
+                    document.getElementById('status-dot').classList.remove('running');
+                    document.getElementById('status-text').textContent = 'Connected';
+                    updateButtons();
+                }
+                
+                if (data.screen) {
+                    document.getElementById('game-screen').src = 'data:image/png;base64,' + data.screen;
+                }
+                
+                if (data.state) {
+                    document.getElementById('stat-xpos').textContent = data.state.x_pos;
+                    document.getElementById('stat-coins').textContent = data.state.coins;
+                    document.getElementById('stat-lives').textContent = data.state.lives;
+                }
+                
+                if (data.type === 'ai_frame' && data.buttons) {
+                    addLogEntry(data);
+                }
+            };
+        }
+
+        function addLogEntry(data) {
+            const log = document.getElementById('ai-log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            const time = new Date().toLocaleTimeString();
+            let html = `
+                <div class="log-buttons">[${data.buttons.join(' + ')}]</div>
+                <div class="log-reasoning">${data.reasoning || 'No reasoning provided'}</div>
+            `;
+            
+            if (data.thinking && data.thinking !== data.reasoning) {
+                // Show full chain of thought if different from reasoning
+                const thinkingPreview = data.thinking.length > 200 
+                    ? data.thinking.substring(0, 200) + '...' 
+                    : data.thinking;
+                html += `<div class="log-thinking">${thinkingPreview}</div>`;
+            }
+            
+            html += `<div class="log-time">${time}</div>`;
+            entry.innerHTML = html;
+            
+            log.insertBefore(entry, log.firstChild);
+            
+            // Keep only last 30 entries
+            while (log.children.length > 30) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        function updateButtons() {
+            document.getElementById('btn-ai-play').disabled = running || !gameLoaded;
+            document.getElementById('btn-stop').disabled = !running;
+            document.getElementById('btn-ai-step').disabled = running || !gameLoaded;
+            document.getElementById('btn-reset').disabled = running;
+        }
+
+        // Clean disconnect on page unload
+        window.addEventListener('beforeunload', () => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ action: 'disconnect' }));
+            }
+        });
+
+        connect();
+
+        document.getElementById('btn-load').addEventListener('click', () => {
+            ws.send(JSON.stringify({ action: 'load' }));
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            ws.send(JSON.stringify({ action: 'reset' }));
+        });
+
+        document.getElementById('btn-ai-step').addEventListener('click', () => {
+            ws.send(JSON.stringify({
+                action: 'ai_step',
+                api_key: document.getElementById('api-key').value,
+                model: document.getElementById('model-select').value
+            }));
+        });
+
+        document.getElementById('btn-ai-play').addEventListener('click', () => {
+            running = true;
+            document.getElementById('status-dot').classList.add('running');
+            document.getElementById('status-text').textContent = 'AI Running...';
+            updateButtons();
+            
+            ws.send(JSON.stringify({
+                action: 'run_ai',
+                api_key: document.getElementById('api-key').value,
+                model: document.getElementById('model-select').value
+            }));
+        });
+
+        document.getElementById('btn-stop').addEventListener('click', () => {
+            console.log('Stop button clicked');
+            ws.send(JSON.stringify({ action: 'stop' }));
+        });
+
+        // Keyboard controls
+        const keyMap = {
+            'ArrowLeft': 'Left', 'ArrowRight': 'Right', 'ArrowUp': 'Up', 'ArrowDown': 'Down',
+            'z': 'A', 'Z': 'A', 'x': 'B', 'X': 'B', 'Enter': 'Start'
+        };
+        const pressedKeys = new Set();
+
+        document.addEventListener('keydown', (e) => {
+            if (keyMap[e.key] && !pressedKeys.has(e.key) && gameLoaded && !running) {
+                pressedKeys.add(e.key);
+                sendManualStep();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => { pressedKeys.delete(e.key); });
+
+        function sendManualStep() {
+            const buttons = [];
+            pressedKeys.forEach(key => { if (keyMap[key]) buttons.push(keyMap[key]); });
+            ws.send(JSON.stringify({ action: 'step', buttons: buttons }));
+        }
+
+        setInterval(() => {
+            if (pressedKeys.size > 0 && gameLoaded && !running) sendManualStep();
+        }, 50);
+    </script>
+</body>
+</html>

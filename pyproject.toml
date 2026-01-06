@@ -1,0 +1,67 @@
+[build-system]
+requires = ["scikit-build-core>=0.10", "nanobind>=2.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "superpy"
+version = "0.1.0"
+description = "High-performance SNES emulator interface for Python - High-performance SNES emulator interface for Python"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [
+    { name = "SuperPy Contributors" }
+]
+keywords = ["snes", "emulator", "nintendo", "retro", "gaming", "ai", "reinforcement-learning", "gymnasium"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: C++",
+    "Topic :: Games/Entertainment",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.21",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+gym = [
+    "gymnasium>=0.29",
+]
+image = [
+    "pillow>=9.0",
+]
+all = [
+    "superpy[gym,image]",
+]
+
+[project.urls]
+Homepage = "https://github.com/superpy/superpy"
+Documentation = "https://superpy.readthedocs.io"
+Repository = "https://github.com/superpy/superpy"
+Issues = "https://github.com/superpy/superpy/issues"
+
+[tool.scikit-build]
+minimum-version = "build-system.requires"
+build-dir = "build/{wheel_tag}"
+wheel.packages = ["src/superpy"]
+
+[tool.scikit-build.cmake.define]
+SUPERPY_HEADLESS = "ON"
+SUPERPY_AUDIO = "OFF"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

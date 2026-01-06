@@ -1,0 +1,27 @@
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.so
+*.dylib
+*.dll
+wheelhouse/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+*.sfc
+*.smc

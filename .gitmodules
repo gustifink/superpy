@@ -1,0 +1,4 @@
+[submodule "external/snes9x"]
+	path = external/snes9x
+	url = https://github.com/snes9xgit/snes9x.git
+	branch = master
