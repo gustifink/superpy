@@ -10,13 +10,13 @@ SuperPy wraps the industry-standard **Snes9x** emulator core, letting you contro
 
 ## ✨ Features
 
-- �� **500+ FPS** in warp mode (headless)
+- 🚀 **500+ FPS** in warp mode (headless)
 - 🧠 **Zero-copy RAM access** — read game state directly as NumPy arrays
 - 💾 **Save/Load states** — essential for RL training
 - 🎮 **Simple input API** — `{"B": True, "Right": True}`
 - 📓 **Jupyter support** — auto-renders screenshots in notebooks
 - 🏋️ **Gymnasium compatible** — drop-in for RL frameworks
-
+- 🤖 **Async AI mode** — non-blocking emulation for LLM agents
 
 ## ⚡ Performance (Warp Mode)
 
@@ -112,6 +112,36 @@ for _ in range(10000):
     # Custom reward from RAM
     reward = snes.memory[0xDBF]  # Use coins as reward
 ```
+
+## 🤖 Async AI Agent Mode
+
+For LLM-based agents that need time to "think", use `AsyncController` to keep the game running while your AI processes frames:
+
+```python
+from superpy import SuperPy, AsyncController
+import threading
+
+snes = SuperPy("mario.smc", headless=True)
+ctrl = AsyncController(snes)
+
+# Capture frames for AI (runs in emulator thread)
+@ctrl.on_frame(interval=10)
+def on_frame(frame, ram):
+    ai_thread.submit(frame.copy(), ram.copy())
+
+# Your AI queues actions when ready
+def on_ai_decision(actions):
+    ctrl.queue_action(actions, duration_frames=30)
+
+# Start emulator (non-blocking)
+ctrl.start(speed=1.0)  # 1.0 = real-time, 2.0 = 2x, 0 = uncapped
+
+# ... AI runs in separate thread ...
+
+ctrl.stop()
+```
+
+See [`examples/async_ai_agent.py`](examples/async_ai_agent.py) for a complete demo.
 
 ## 🔧 Development
 
