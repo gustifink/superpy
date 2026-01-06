@@ -55,9 +55,11 @@ class SuperPy:
     # SNES button names for reference
     BUTTONS = ("A", "B", "X", "Y", "L", "R", "Up", "Down", "Left", "Right", "Start", "Select")
     
-    # Screen dimensions
-    SCREEN_WIDTH = 256
-    SCREEN_HEIGHT = 224
+    # Screen dimensions (base - actual may vary by graphics mode)
+    SCREEN_WIDTH = 256    # Standard width
+    SCREEN_HEIGHT = 224   # Standard height
+    MAX_WIDTH = 512       # Hi-res modes (Mode 5/6)
+    MAX_HEIGHT = 478      # Interlaced modes
     
     def __init__(
         self, 
@@ -157,7 +159,11 @@ class SuperPy:
         Zero-copy view of the SNES screen buffer.
         
         Returns:
-            numpy array of shape (224, 256, 4) with RGBA pixel data
+            numpy array with RGBA pixel data.
+            Shape varies by graphics mode:
+            - Standard: (224, 256, 4)
+            - Hi-res (Mode 5/6): (224, 512, 4)
+            - Interlaced: up to (478, 512, 4)
         """
         return self._engine.screen
     

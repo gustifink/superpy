@@ -16,6 +16,7 @@
 #include "snapshot.h"
 #include "controls.h"
 #include "display.h"
+#include "ppu.h"
 #include "cpuexec.h"
 #include "movie.h"
 #include "fscompat.h"
@@ -27,7 +28,7 @@
 
 namespace superpy {
 
-// Global screen buffer (RGBA, 256x224)
+// Global screen buffer (RGBA, up to 512x478 for hi-res/interlaced modes)
 static constexpr int SCREEN_WIDTH = SNES_WIDTH;      // 256
 static constexpr int SCREEN_HEIGHT = SNES_HEIGHT;    // 224
 static constexpr int MAX_SNES_W = MAX_SNES_WIDTH;    // 512
@@ -165,10 +166,13 @@ const uint32_t* SuperPyEngine::get_screen() const {
     const uint16_t* src = GFX.Screen;
     uint32_t* dst = rgba_buffer;
     
+    // Use actual rendered dimensions from IPPU (handles hi-res, interlace, etc.)
+    int width = IPPU.RenderedScreenWidth > 0 ? IPPU.RenderedScreenWidth : SNES_WIDTH;
+    int height = IPPU.RenderedScreenHeight > 0 ? IPPU.RenderedScreenHeight : SNES_HEIGHT;
     int pitch = GFX.Pitch / sizeof(uint16_t);
 
-    for (int y = 0; y < SCREEN_HEIGHT; y++) {
-        for (int x = 0; x < SCREEN_WIDTH; x++) {
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
             uint16_t pixel = src[y * pitch + x];
             
             // RGB565 to RGBA8888
@@ -177,7 +181,7 @@ const uint32_t* SuperPyEngine::get_screen() const {
             uint8_t b = (pixel & 0x1F) << 3;
             
             // RGBA format (little-endian: 0xAABBGGRR)
-            dst[y * SCREEN_WIDTH + x] = (0xFF << 24) | (b << 16) | (g << 8) | r;
+            dst[y * width + x] = (0xFF << 24) | (b << 16) | (g << 8) | r;
         }
     }
 
@@ -185,11 +189,19 @@ const uint32_t* SuperPyEngine::get_screen() const {
 }
 
 int SuperPyEngine::get_screen_width() const {
-    return SCREEN_WIDTH;
+    // Return actual rendered width (may be 512 for hi-res modes)
+    if (initialized_ && IPPU.RenderedScreenWidth > 0) {
+        return IPPU.RenderedScreenWidth;
+    }
+    return SNES_WIDTH;
 }
 
 int SuperPyEngine::get_screen_height() const {
-    return SCREEN_HEIGHT;
+    // Return actual rendered height (may be 448/478 for interlaced modes)
+    if (initialized_ && IPPU.RenderedScreenHeight > 0) {
+        return IPPU.RenderedScreenHeight;
+    }
+    return SNES_HEIGHT;
 }
 
 uint8_t* SuperPyEngine::get_memory() {

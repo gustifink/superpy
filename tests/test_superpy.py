@@ -11,7 +11,7 @@ import pytest
 def test_import():
     """Test that SuperPy can be imported."""
     from superpy import SuperPy, __version__
-    assert __version__ == "0.1.0"
+    assert __version__ == "0.2.0"
 
 
 def test_buttons_defined():
