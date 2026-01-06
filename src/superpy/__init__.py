@@ -30,7 +30,7 @@ except ImportError as e:
     ) from e
 
 __version__ = "0.1.0"
-__all__ = ["SuperPy", "__version__"]
+__all__ = ["SuperPy", "AsyncController", "__version__"]
 
 
 class SuperPy:
@@ -265,7 +265,10 @@ class SuperPy:
 # Export Gymnasium environment
 from .env import SuperPyEnv
 
-__all__ = ["SuperPy", "SuperPyEnv", "__version__"]
+# Export async controller
+from .async_controller import AsyncController
+
+__all__ = ["SuperPy", "SuperPyEnv", "AsyncController", "__version__"]
 
 # Register with gymnasium
 try:
