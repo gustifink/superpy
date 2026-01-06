@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "superpy"
-version = "0.1.0"
+version = "0.2.0"
 description = "High-performance SNES emulator interface for Python - High-performance SNES emulator interface for Python"
 readme = "README.md"
 license = { text = "MIT" }
