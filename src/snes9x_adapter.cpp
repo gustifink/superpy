@@ -68,6 +68,10 @@ bool SuperPyEngine::load_rom(const std::string& path) {
     Settings.StopEmulation = false;
     Settings.SkipFrames = 0;
     Settings.TurboSkipFrames = 15;
+    Settings.MaxSpriteTilesPerLine = 34;  // Critical for sprite rendering
+    Settings.OneClockCycle = 6;
+    Settings.OneSlowClockCycle = 8;
+    Settings.TwoClockCycles = 12;
     Settings.CartAName[0] = '\0';
     Settings.CartBName[0] = '\0';
 
