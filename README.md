@@ -3,7 +3,7 @@
 **SuperPy** — High-performance Super Nintendo emulation for Python.
 
 [![PyPI version](https://badge.fury.io/py/superpy.svg)](https://pypi.org/project/superpy/)
-[![Build](https://github.com/superpy/superpy/actions/workflows/build.yml/badge.svg)](https://github.com/superpy/superpy/actions)
+[![Build](https://github.com/gustifink/superpy/actions/workflows/build.yml/badge.svg)](https://github.com/gustifink/superpy/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 SuperPy wraps the industry-standard **Snes9x** emulator core, letting you control SNES games with Python. Perfect for AI research, reinforcement learning, and retro-gaming automation.
@@ -146,7 +146,7 @@ See [`examples/async_ai_agent.py`](examples/async_ai_agent.py) for a complete de
 ## 🔧 Development
 
 ```bash
-git clone --recursive https://github.com/superpy/superpy
+git clone --recursive https://github.com/gustifink/superpy
 cd superpy
 pip install -e ".[dev]"
 pytest
