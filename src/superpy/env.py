@@ -30,7 +30,7 @@ if HAS_GYMNASIUM:
         
         Example:
             >>> import gymnasium as gym
-            >>> env = gym.make("SuperPy-v0", rom_path="mario.smc")
+            >>> env = gym.make("SuperPy-v0", rom_path="your_game.smc")
             >>> obs, info = env.reset()
             >>> obs, reward, terminated, truncated, info = env.step(action)
         

@@ -6,7 +6,7 @@ Demonstrates how to use AsyncController for non-blocking AI integration.
 The emulator runs continuously while an "AI" processes frames in a separate thread.
 
 Usage:
-    python async_ai_agent.py path/to/super_mario_world.smc
+    python async_ai_agent.py path/to/your_game.smc
 """
 
 import argparse
@@ -90,12 +90,12 @@ def main():
                 ctrl.queue_action(actions, duration_frames=30)
                 ai_decisions += 1
                 
-                # Read game state from RAM
+                # Read game state from RAM (addresses vary by game)
                 x_pos = int.from_bytes(ram[0x94:0x96], 'little')
-                coins = int(ram[0xDBF])
+                score = int(ram[0x0F34])
                 print(
                     f"  AI Decision #{ai_decisions}: "
-                    f"x={x_pos}, coins={coins}, "
+                    f"x={x_pos}, score={score}, "
                     f"actions={actions}"
                 )
     

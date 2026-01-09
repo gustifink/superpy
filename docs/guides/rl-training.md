@@ -11,8 +11,8 @@ from superpy import SuperPyEnv
 
 # Create environment
 env = SuperPyEnv(
-    rom_path="super_mario_world.smc",
-    reward_address=0xDBF,  # Coins as reward
+    rom_path="your_game.smc",
+    reward_address=0x0F34,  # e.g., score as reward (game-specific)
     frame_skip=4,
 )
 
@@ -42,7 +42,7 @@ def make_env(rom_path):
     return _init
 
 # 8 parallel environments
-envs = SubprocVecEnv([make_env("mario.smc") for _ in range(8)])
+envs = SubprocVecEnv([make_env("your_game.smc") for _ in range(8)])
 model = PPO("CnnPolicy", envs, verbose=1)
 ```
 
@@ -69,7 +69,7 @@ class MarioEnv(SuperPyEnv):
 ```python
 from stable_baselines3 import DQN
 
-env = SuperPyEnv("mario.smc")
+env = SuperPyEnv("your_game.smc")
 model = DQN(
     "CnnPolicy", 
     env,
@@ -88,7 +88,7 @@ The default observation is `224x256x4` RGBA pixels. For CNN policies:
 # Grayscale + downscale wrapper
 from gymnasium.wrappers import GrayScaleObservation, ResizeObservation
 
-env = SuperPyEnv("mario.smc")
+env = SuperPyEnv("your_game.smc")
 env = GrayScaleObservation(env)
 env = ResizeObservation(env, (84, 84))
 ```

@@ -7,7 +7,7 @@
 ```python
 from superpy import SuperPy
 
-snes = SuperPy("super_mario_world.smc")
+snes = SuperPy("your_game.smc")  # Your legally obtained ROM
 
 # Run at 60 FPS
 for _ in range(1000):

@@ -44,19 +44,19 @@ pip install superpy
 ```python
 from superpy import SuperPy
 
-# Load a ROM
-snes = SuperPy("super_mario_world.smc", headless=True)
+# Load your ROM (legally obtained backup)
+snes = SuperPy("your_game.smc", headless=True)
 
 # Run the game loop
 for _ in range(1000):
-    # Read game state from RAM
-    coins = snes.memory[0xDBF]
+    # Read game state from RAM (address varies by game)
+    player_x = snes.memory[0x94]
     
     # Send controller input
     frame = snes.step({"B": True, "Right": True})
 
 # Save a screenshot
-snes.save_screenshot("mario.png")
+snes.save_screenshot("screenshot.png")
 ```
 
 ## 🎯 RAM Access (The Matrix Mode)
@@ -64,11 +64,10 @@ snes.save_screenshot("mario.png")
 Read any memory address directly:
 
 ```python
-# Super Mario World examples
-coins = snes.memory[0xDBF]
-lives = snes.memory[0xDBE]
-mario_x = int.from_bytes(snes.memory[0x94:0x96], 'little')
-mario_y = int.from_bytes(snes.memory[0x96:0x98], 'little')
+# Example RAM reads (addresses vary by game)
+player_x = int.from_bytes(snes.memory[0x94:0x96], 'little')
+player_y = int.from_bytes(snes.memory[0x96:0x98], 'little')
+score = snes.memory[0x0F34]
 ```
 
 ## 🕹️ Controller Input
@@ -101,7 +100,7 @@ snes.load_state(state)
 ```python
 from superpy import SuperPy
 
-snes = SuperPy("game.smc")
+snes = SuperPy("your_game.smc")
 
 # Gymnasium-style API
 obs = snes.reset()
@@ -109,8 +108,8 @@ for _ in range(10000):
     action = your_agent.predict(obs)
     obs, reward, done, truncated, info = snes.step_gym(action)
     
-    # Custom reward from RAM
-    reward = snes.memory[0xDBF]  # Use coins as reward
+    # Custom reward from RAM (address varies by game)
+    reward = snes.memory[0x0F34]  # e.g., score as reward
 ```
 
 ## 🤖 Async AI Agent Mode
@@ -121,7 +120,7 @@ For LLM-based agents that need time to "think", use `AsyncController` to keep th
 from superpy import SuperPy, AsyncController
 import threading
 
-snes = SuperPy("mario.smc", headless=True)
+snes = SuperPy("your_game.smc", headless=True)
 ctrl = AsyncController(snes)
 
 # Capture frames for AI (runs in emulator thread)

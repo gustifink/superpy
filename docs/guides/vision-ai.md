@@ -20,7 +20,7 @@ genai.configure(api_key="YOUR_API_KEY")
 model = genai.GenerativeModel("gemini-3-flash")
 
 # Load game
-snes = SuperPy("super_mario_world.smc")
+snes = SuperPy("your_game.smc")  # Your legally obtained ROM
 
 # Skip title screen
 for _ in range(300):
@@ -35,7 +35,7 @@ while True:
     
     # Ask AI what to do
     prompt = """
-    You are playing Super Mario World. Analyze the screenshot and decide 
+    You are playing a SNES game. Analyze the screenshot and decide 
     what buttons to press.
     
     Available: Up, Down, Left, Right, A (jump), B (run), X, Y, L, R, Start
@@ -179,6 +179,7 @@ python server.py
 ```
 
 Features:
+
 - Real-time WebSocket streaming
 - Model selection (Gemini 3, Claude, GPT-4o)
 - Chain of thought display

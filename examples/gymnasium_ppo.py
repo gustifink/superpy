@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-SuperPy Example: Train a PPO Agent on Super Mario World
+SuperPy Example: Train a PPO Agent
 
 This example shows how to train a PPO agent using Stable-Baselines3.
-The agent learns to maximize rightward progress using coin collection as reward.
+The agent learns to maximize rightward progress using score as reward.
 
 Requirements:
     pip install superpy[gym] stable-baselines3 shimmy
 
 Usage:
-    python gymnasium_ppo.py path/to/super_mario_world.smc
+    python gymnasium_ppo.py path/to/your_game.smc
 """
 
 import argparse

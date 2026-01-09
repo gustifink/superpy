@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-SuperPy Demo: Train a Simple AI on Super Mario World
+SuperPy Demo: Train a Simple AI
 
 This demonstrates how to use SuperPy for reinforcement learning.
 The AI learns to maximize rightward progress using RAM reading.
 
 Usage:
-    python train_mario.py path/to/super_mario_world.smc
+    python train_mario.py path/to/your_game.smc
 """
 
 import argparse

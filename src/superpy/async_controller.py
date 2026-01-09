@@ -28,7 +28,7 @@ class AsyncController:
     
     Example:
         >>> from superpy import SuperPy, AsyncController
-        >>> snes = SuperPy("mario.sfc", headless=True)
+        >>> snes = SuperPy("your_game.sfc", headless=True)
         >>> ctrl = AsyncController(snes)
         >>> 
         >>> @ctrl.on_frame(interval=10)

@@ -19,11 +19,11 @@ Memory addresses for reading game state directly.
 ```python
 from superpy import SuperPy
 
-snes = SuperPy("super_mario_world.smc")
+snes = SuperPy("your_game.smc")  # Your legally obtained ROM
 
-# Read Mario's position (16-bit, little-endian)
-mario_x = int.from_bytes(snes.memory[0x94:0x96], 'little')
-mario_y = int.from_bytes(snes.memory[0x96:0x98], 'little')
+# Read player's position (16-bit, little-endian)
+player_x = int.from_bytes(snes.memory[0x94:0x96], 'little')
+player_y = int.from_bytes(snes.memory[0x96:0x98], 'little')
 
 # Read single-byte values
 coins = int(snes.memory[0xDBF])

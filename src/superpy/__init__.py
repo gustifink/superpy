@@ -6,10 +6,10 @@ and retro-gaming automation.
 
 Example:
     >>> from superpy import SuperPy
-    >>> snes = SuperPy("super_mario_world.smc")
+    >>> snes = SuperPy("your_game.smc")  # Your legally obtained ROM
     >>> for _ in range(1000):
     ...     frame = snes.step({"B": True, "Right": True})
-    >>> print(f"Coins: {snes.memory[0xDBF]}")
+    >>> print(f"Score: {snes.memory[0x0F34]}")
 """
 
 from __future__ import annotations
@@ -46,10 +46,10 @@ class SuperPy:
         speed_limit: FPS limit, 0 = unlimited "warp mode" (default 0)
     
     Example:
-        >>> snes = SuperPy("mario.smc", headless=True)
+        >>> snes = SuperPy("your_game.smc", headless=True)
         >>> while not snes.done:
         ...     frame = snes.step({"Right": True, "B": True})
-        ...     coins = snes.memory[0xDBF]
+        ...     player_x = snes.memory[0x94]
     """
     
     # SNES button names for reference
@@ -176,8 +176,8 @@ class SuperPy:
         Memory addresses vary by game - check RAM maps for your game.
         
         Example:
-            >>> coins = snes.memory[0xDBF]  # Super Mario World coins
-            >>> mario_x = int.from_bytes(snes.memory[0x94:0x96], 'little')
+            >>> score = snes.memory[0x0F34]  # Example: score address
+            >>> player_x = int.from_bytes(snes.memory[0x94:0x96], 'little')
         
         Returns:
             numpy array view of the 128KB RAM
