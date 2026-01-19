@@ -105,7 +105,7 @@ Enable reasoning transparency with CoT-capable models:
 prompt = """
 Think step by step:
 1. What do you see on screen? (enemies, obstacles, platforms)
-2. Where is Mario currently?
+2. Where is the player currently?
 3. What is the best action to take?
 4. What buttons achieve that action?
 

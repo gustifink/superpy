@@ -75,10 +75,10 @@ async def query_ai(screenshot_b64: str, game_state: dict, api_key: str, model: s
             "thinking": None
         }
     
-    prompt = """You are playing Super Mario World on SNES. Analyze the screenshot and decide what buttons to press.
+    prompt = """You are playing a SNES game. Analyze the screenshot and decide what buttons to press.
 
 Current Game State:
-- Mario's X position: {x_pos}
+- Player X position: {x_pos}
 - Coins collected: {coins}
 - Lives remaining: {lives}
 
@@ -198,7 +198,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 # Reset previous state
                 running = False
                 
-                rom = data.get("rom", "Super Mario World (Europe) (Rev 1).sfc")
+                rom = data.get("rom", "your_game.sfc")
                 rom_path = Path(__file__).parent.parent / rom
                 
                 print(f"Loading ROM: {rom_path}")

@@ -21,7 +21,7 @@ model = PPO("CnnPolicy", env, verbose=1)
 model.learn(total_timesteps=100_000)
 
 # Save trained model
-model.save("mario_ppo")
+model.save("snes_ppo")
 ```
 
 ## Performance Tips
@@ -49,7 +49,7 @@ model = PPO("CnnPolicy", envs, verbose=1)
 ### 3. Custom Rewards from RAM
 
 ```python
-class MarioEnv(SuperPyEnv):
+class CustomEnv(SuperPyEnv):
     def step(self, action):
         obs, _, terminated, truncated, info = super().step(action)
         

@@ -2,14 +2,14 @@
 
 Memory addresses for reading game state directly.
 
-## Super Mario World
+## Example Platformer Game
 
 | Address | Name | Type | Description |
 |---------|------|------|-------------|
-| `0x0094` | mario_x | u16 | X position (little-endian) |
-| `0x0096` | mario_y | u16 | Y position (little-endian) |
+| `0x0094` | player_x | u16 | X position (little-endian) |
+| `0x0096` | player_y | u16 | Y position (little-endian) |
 | `0x0019` | powerup | u8 | 0=Small, 1=Big, 2=Cape, 3=Fire |
-| `0x0071` | dying | u8 | Non-zero when Mario is dying |
+| `0x0071` | dying | u8 | Non-zero when player is dying |
 | `0x0DBE` | lives | u8 | Lives remaining |
 | `0x0DBF` | coins | u8 | Coins collected |
 | `0x13EF` | on_ground | u8 | Non-zero when on ground |
@@ -30,7 +30,7 @@ coins = int(snes.memory[0xDBF])
 lives = int(snes.memory[0xDBE])
 powerup = int(snes.memory[0x19])
 
-print(f"Pos: ({mario_x}, {mario_y}), Coins: {coins}, Lives: {lives}")
+print(f"Pos: ({player_x}, {player_y}), Coins: {coins}, Lives: {lives}")
 ```
 
 ---
@@ -70,15 +70,15 @@ Found a useful memory address? Add it to our community-maintained collection:
 
 ```json
 {
-  "game": "Super Mario World",
+  "game": "Example Platformer",
   "region": "USA",
   "addresses": [
     {
       "address": "0x0094",
-      "name": "mario_x",
+      "name": "player_x",
       "type": "u16",
       "endian": "little",
-      "description": "Mario X position in pixels"
+      "description": "Player X position in pixels"
     }
   ]
 }

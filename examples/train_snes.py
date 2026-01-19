@@ -6,7 +6,7 @@ This demonstrates how to use SuperPy for reinforcement learning.
 The AI learns to maximize rightward progress using RAM reading.
 
 Usage:
-    python train_mario.py path/to/your_game.smc
+    python train_snes.py path/to/your_game.smc
 """
 
 import argparse
@@ -28,7 +28,7 @@ class GameState(NamedTuple):
 
 
 def read_game_state(memory: np.ndarray) -> GameState:
-    """Parse Super Mario World RAM into a structured state."""
+    """Parse SNES game RAM into a structured state."""
     return GameState(
         x=int.from_bytes(memory[0x94:0x96], 'little'),
         y=int.from_bytes(memory[0x96:0x98], 'little'),
@@ -100,8 +100,8 @@ class SimpleAgent:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train a simple AI on Super Mario World")
-    parser.add_argument("rom", help="Path to Super Mario World ROM")
+    parser = argparse.ArgumentParser(description="Train a simple AI on an SNES game")
+    parser.add_argument("rom", help="Path to SNES game ROM")
     parser.add_argument("--episodes", type=int, default=10, help="Number of episodes")
     parser.add_argument("--frames", type=int, default=3000, help="Max frames per episode")
     parser.add_argument("--headless", action="store_true", default=True, help="Run headless")
@@ -110,7 +110,7 @@ def main():
     # Import here so CLI help works without the library
     from superpy import SuperPy
 
-    print("🎮 SuperPy Mario Training Demo")
+    print("🎮 SuperPy Training Demo")
     print("=" * 40)
     
     agent = SimpleAgent()

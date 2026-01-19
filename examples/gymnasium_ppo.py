@@ -35,9 +35,9 @@ except ImportError:
 from superpy import SuperPy
 
 
-class MarioEnv(gym.Env):
+class SNESEnv(gym.Env):
     """
-    Custom Mario environment with progress-based rewards.
+    Custom SNES environment with progress-based rewards.
     
     Rewards:
         - +0.1 per pixel moved right
@@ -149,18 +149,18 @@ class MarioEnv(gym.Env):
 def make_env(rom_path: str):
     """Factory function for creating environments."""
     def _init():
-        env = MarioEnv(rom_path)
+        env = SNESEnv(rom_path)
         env = FrameStack(env, num_stack=4)  # Stack 4 frames for temporal info
         return env
     return _init
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train PPO on Super Mario World")
-    parser.add_argument("rom", help="Path to Super Mario World ROM")
+    parser = argparse.ArgumentParser(description="Train PPO on an SNES game")
+    parser.add_argument("rom", help="Path to SNES game ROM")
     parser.add_argument("--timesteps", type=int, default=100_000, help="Total training timesteps")
     parser.add_argument("--envs", type=int, default=4, help="Number of parallel environments")
-    parser.add_argument("--save", default="mario_ppo", help="Model save path")
+    parser.add_argument("--save", default="snes_ppo", help="Model save path")
     args = parser.parse_args()
     
     print("🎮 SuperPy PPO Training")

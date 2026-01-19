@@ -146,7 +146,7 @@ class AsyncController:
         
         Example:
             >>> ctrl.queue_action({"B": True, "Right": True}, duration_frames=30)
-            >>> # Mario will run right and jump for 30 frames
+            >>> # Player will run right and jump for 30 frames
         """
         with self._action_lock:
             self._action_queue.append((buttons.copy(), duration_frames))
