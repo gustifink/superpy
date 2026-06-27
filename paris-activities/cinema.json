@@ -1,0 +1,34 @@
+[
+  {
+    "id": "cinema-toy-story-5-2026-06-17",
+    "kind": "cinema",
+    "title": "Toy Story 5",
+    "category": "Cinéma",
+    "venue": "Cinémas parisiens",
+    "address": "Paris",
+    "releaseDate": "2026-06-17",
+    "dateLabel": "Sorti le 17 juin",
+    "age": "Dès 6 ans",
+    "price": "Selon la séance",
+    "description": "Jessie, Buzz et les jouets font face à une nouvelle rivale : une tablette-jouet qui capte toute l’attention de Bonnie.",
+    "why": "Pixar, aventure et une vraie idée autour des écrans.",
+    "ticketUrl": "https://www.google.com/search?q=Toy+Story+5+s%C3%A9ances+Paris&hl=fr",
+    "sourceUrl": "https://www.lemonde.fr/en/economy/article/2026/06/25/heatwave-drives-surge-in-movie-theater-attendance_6754875_19.html"
+  },
+  {
+    "id": "cinema-minions-monsters-2026-06-24",
+    "kind": "cinema",
+    "title": "Minions & Monsters",
+    "category": "Cinéma",
+    "venue": "Cinémas parisiens",
+    "address": "Paris",
+    "releaseDate": "2026-06-24",
+    "dateLabel": "Nouveau à Paris depuis le 24 juin",
+    "age": "Tout public",
+    "price": "Selon la séance",
+    "description": "Les Minions se lancent dans la fabrication de leur propre film de monstres dans le Hollywood des années 1920.",
+    "why": "Une comédie d’animation très visuelle autour de la fabrication du cinéma.",
+    "ticketUrl": "https://www.google.com/search?q=Minions+%26+Monsters+s%C3%A9ances+Paris&hl=fr",
+    "sourceUrl": "https://www.lemonde.fr/en/economy/article/2026/06/25/heatwave-drives-surge-in-movie-theater-attendance_6754875_19.html"
+  }
+]
