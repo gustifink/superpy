@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f3f0e8" />
+  <title>Frida à Paris — sorties intelligentes</title>
+  <meta name="description" content="Un tableau vivant des meilleures sorties culturelles à Paris pour une enfant de 7 ans." />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <div class="eyebrow">Paris · 7 ans · culture vivante</div>
+        <h1>Les sorties de Frida</h1>
+        <p class="subtitle">Des expériences qui donnent envie de regarder, fabriquer et comprendre. Glisse les cartes entre les colonnes : tes choix restent enregistrés sur cet appareil.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn" id="addBtn" type="button" aria-label="Ajouter une activité">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>Ajouter</span>
+        </button>
+        <button class="btn" id="exportBtn" type="button" aria-label="Exporter le tableau">
+          <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg><span class="long">Exporter</span>
+        </button>
+        <button class="btn primary" id="refreshBtn" type="button">
+          <svg viewBox="0 0 24 24"><path d="M20 7h-6V1M4 17h6v6M20 7a8 8 0 0 0-14.7-2.3L4 7M4 17a8 8 0 0 0 14.7 2.3L20 17"/></svg><span>Actualiser</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <label class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input id="searchInput" type="search" placeholder="Chercher un musée, un atelier, une date…" autocomplete="off" />
+      </label>
+      <select class="filter" id="categoryFilter" aria-label="Filtrer par catégorie"><option value="">Toutes les catégories</option></select>
+      <select class="filter" id="venueFilter" aria-label="Filtrer par lieu"><option value="">Tous les lieux</option></select>
+      <span class="tiny-status" id="syncStatus">Sélection éditée le 27 juin 2026</span>
+    </section>
+
+    <section class="board" id="board" aria-label="Tableau des activités">
+      <section class="column" data-column="available"><div class="col-head"><span class="dot"></span><span class="col-title">Disponibles</span><span class="count">0</span></div><div class="cards"></div></section>
+      <section class="column" data-column="todo"><div class="col-head"><span class="dot"></span><span class="col-title">À faire</span><span class="count">0</span></div><div class="cards"></div></section>
+      <section class="column" data-column="planned"><div class="col-head"><span class="dot"></span><span class="col-title">Prévues</span><span class="count">0</span></div><div class="cards"></div></section>
+      <section class="column" data-column="past"><div class="col-head"><span class="dot"></span><span class="col-title">Passées</span><span class="count">0</span></div><div class="cards"></div></section>
+    </section>
+
+    <footer>
+      <span>Les places et horaires peuvent évoluer : la billetterie officielle reste la référence.</span>
+      <span class="footer-links"><a href="#" id="resetBtn">Réinitialiser le tableau</a><a href="#" id="sourcesBtn">Sources</a></span>
+    </footer>
+  </main>
+
+  <dialog id="detailDialog"><div class="modal" id="detailContent"></div></dialog>
+  <dialog id="addDialog">
+    <form class="modal" id="addForm" method="dialog">
+      <div class="modal-head"><div><div class="eyebrow">Nouvelle idée</div><h2>Ajouter une activité</h2></div><button class="x" value="cancel" aria-label="Fermer">×</button></div>
+      <div class="form-grid">
+        <div class="field full"><label for="newTitle">Nom</label><input id="newTitle" required placeholder="Ex. Atelier céramique" /></div>
+        <div class="field"><label for="newVenue">Lieu</label><input id="newVenue" required placeholder="Ex. Musée Guimet" /></div>
+        <div class="field"><label for="newCategory">Catégorie</label><input id="newCategory" placeholder="Ex. Art japonais" /></div>
+        <div class="field"><label for="newDate">Date et heure</label><input id="newDate" type="datetime-local" /></div>
+        <div class="field"><label for="newPrice">Prix</label><input id="newPrice" placeholder="Ex. 12 €" /></div>
+        <div class="field full"><label for="newUrl">Lien de réservation</label><input id="newUrl" type="url" placeholder="https://…" /></div>
+        <div class="field full"><label for="newDescription">Pourquoi c’est bien</label><textarea id="newDescription" placeholder="Ce que Frida va découvrir ou fabriquer…"></textarea></div>
+      </div>
+      <div class="modal-actions"><button class="btn primary" type="submit">Ajouter à « À faire »</button><button class="btn" value="cancel">Annuler</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>fetch('activities.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>[]).then(d=>{window.__INITIAL_ACTIVITIES__=d;const s=document.createElement('script');s.src='app.js';document.body.appendChild(s)})</script>
+</body>
+</html>
