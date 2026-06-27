@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f3f0e8" />
+  <title>Stages de Frida — vacances à Paris</title>
+  <meta name="description" content="Une sélection de stages intelligents et créatifs à Paris pour Frida pendant les vacances." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .stage-hero{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;margin-bottom:24px}.stage-hero h1{max-width:880px}.hero-note{max-width:330px;background:#20211f;color:#fff;border-radius:20px;padding:17px;box-shadow:var(--shadow)}.hero-note strong{font-family:Georgia,"Times New Roman",serif;font-size:22px;font-weight:500;display:block;margin-bottom:7px}.hero-note span{font-size:12px;line-height:1.5;color:#d5d1c6}.page-nav{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.page-nav .active{background:#20211f;color:#fff;border-color:#20211f}.stage-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:11px;border:1px solid var(--line);background:rgba(255,254,249,.58);border-radius:18px;margin-bottom:17px}.stage-toolbar .search{flex:1 1 280px}.research-note{font-size:11px;color:#7d7a72;margin-left:auto}.stage-board{display:grid;grid-template-columns:repeat(3,minmax(285px,1fr));gap:14px;align-items:start;overflow-x:auto;padding:1px 1px 20px;scroll-snap-type:x proximity}.stage-column{min-height:620px;border:1px solid rgba(209,204,192,.86);border-radius:22px;background:rgba(255,255,255,.37);padding:13px;scroll-snap-align:start}.stage-column.drag-over{background:rgba(255,255,255,.88);border-color:#77736a;box-shadow:inset 0 0 0 2px rgba(32,33,31,.06)}.stage-column[data-column="shortlist"] .dot{background:#b8d6c0;box-shadow:0 0 0 4px rgba(184,214,192,.22)}.stage-column[data-column="booked"] .dot{background:#b9cee8;box-shadow:0 0 0 4px rgba(185,206,232,.25)}.stage-cards{display:flex;flex-direction:column;gap:10px;min-height:545px}.stage-card{position:relative;background:var(--card);border:1px solid rgba(216,211,199,.93);border-radius:18px;padding:15px;box-shadow:var(--shadow);cursor:grab;transition:.16s ease}.stage-card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(33,31,25,.11)}.stage-card.dragging{opacity:.35}.stage-card-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}.stage-provider{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#6c6960}.fit{margin-left:auto;display:flex;gap:2px}.fit span{width:7px;height:7px;border-radius:50%;background:#ded9ce}.fit span.on{background:#20211f}.stage-card h3{font-family:Georgia,"Times New Roman",serif;font-size:23px;line-height:1.05;letter-spacing:-.025em;margin:0 0 8px;font-weight:500}.stage-card .why{margin-bottom:12px}.stage-meta{display:grid;gap:7px;border-top:1px solid #ebe6dc;border-bottom:1px solid #ebe6dc;padding:10px 0;margin-bottom:11px}.stage-meta-row{display:grid;grid-template-columns:72px 1fr;gap:8px;font-size:11px;line-height:1.4}.stage-meta-row strong{color:#8a877e;text-transform:uppercase;letter-spacing:.06em;font-size:9px}.stage-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.stage-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;border-radius:999px;padding:5px 7px;background:#efede5;color:#5e5b54}.stage-badge.good{background:#dcebdd;color:#31553a}.stage-badge.warn{background:#fff0b7;color:#715b00}.stage-badge.short{background:#dce7f2;color:#36536f}.stage-watch{font-size:11px;line-height:1.45;color:#77746d;background:#f5f2eb;border-radius:11px;padding:9px;margin-bottom:11px}.stage-actions{display:flex;align-items:center;gap:8px}.stage-link{display:inline-flex;align-items:center;text-decoration:none;background:#20211f;color:#fff;border-radius:999px;padding:8px 11px;font-size:11px;font-weight:800}.stage-select{margin-left:auto;border:1px solid var(--line);background:#f7f5ef;border-radius:9px;height:33px;padding:0 8px;font-size:10px}.stage-handle{width:32px;height:30px;border:1px solid #ddd8cb;background:#f7f4ec;border-radius:9px;display:grid;place-items:center;color:#77746b;cursor:grab;touch-action:none}.stage-handle svg{width:17px;height:17px;fill:currentColor}.stage-ghost{position:fixed!important;z-index:9999!important;pointer-events:none!important;opacity:.92!important;transform:rotate(1.5deg);box-shadow:0 24px 70px rgba(20,20,18,.28)!important}.stage-empty{border:1px dashed #cfc9bc;border-radius:15px;padding:22px 12px;text-align:center;color:#949187;font-size:12px}.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:17px}.legend-card{border:1px solid var(--line);border-radius:15px;background:rgba(255,254,249,.55);padding:12px}.legend-card strong{font-size:11px;display:block;margin-bottom:4px}.legend-card span{font-size:10px;line-height:1.4;color:#77746d}.stage-footer-note{font-size:11px;color:#858278;margin-top:4px;line-height:1.45}.toast{z-index:10000}@media(max-width:980px){.stage-board{grid-template-columns:repeat(3,315px)}.stage-hero{grid-template-columns:1fr}.hero-note{max-width:none}.legend{grid-template-columns:1fr}}@media(max-width:720px){.stage-board{grid-template-columns:repeat(3,87vw)}.stage-column{min-height:540px}.stage-cards{min-height:470px}.stage-card{cursor:default}.stage-select{display:block}.research-note{width:100%;margin-left:0;padding:0 4px}.stage-hero h1{font-size:45px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="stage-hero">
+      <div>
+        <div class="eyebrow">Vacances à Paris · sélection personnelle</div>
+        <h1>Les stages potentiels de Frida</h1>
+        <p class="subtitle">Une shortlist séparée des sorties ponctuelles, pensée autour de ce qu’elle aime déjà : dessiner, construire, comprendre, jouer, le Japon et les échecs.</p>
+        <nav class="page-nav" aria-label="Navigation du site">
+          <a class="btn" href="index.html">Sorties & cinéma</a>
+          <a class="btn active" href="stages.html">Stages vacances</a>
+        </nav>
+      </div>
+      <aside class="hero-note">
+        <strong>La règle de sélection</strong>
+        <span>Un bon stage doit lui permettre de produire quelque chose, rencontrer une idée nouvelle et rester assez ludique pour ressembler à des vacances.</span>
+      </aside>
+    </section>
+
+    <section class="legend" aria-label="Légende des statuts">
+      <div class="legend-card"><strong>Programme à vérifier</strong><span>L’organisateur propose habituellement des stages de vacances ; il faut confirmer les dates et places de l’été 2026.</span></div>
+      <div class="legend-card"><strong>À contacter</strong><span>L’option paraît très compatible, mais le programme est publié localement ou sur demande.</span></div>
+      <div class="legend-card"><strong>Alternative courte</strong><span>Excellent pour Frida, avec un format de quelques heures plutôt qu’une semaine complète.</span></div>
+    </section>
+
+    <section class="stage-toolbar">
+      <label class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input id="stageSearch" type="search" placeholder="Chercher art, Japon, échecs, sciences…" autocomplete="off" />
+      </label>
+      <select class="filter" id="stageCategory"><option value="">Toutes les catégories</option></select>
+      <span class="research-note">Vérifié le 27 juin 2026 · dates exactes à confirmer sur chaque site</span>
+    </section>
+
+    <section class="stage-board" id="stageBoard">
+      <section class="stage-column" data-column="consider"><div class="col-head"><span class="dot"></span><span class="col-title">À regarder</span><span class="count">0</span></div><div class="stage-cards"></div></section>
+      <section class="stage-column" data-column="shortlist"><div class="col-head"><span class="dot"></span><span class="col-title">Shortlist</span><span class="count">0</span></div><div class="stage-cards"></div></section>
+      <section class="stage-column" data-column="booked"><div class="col-head"><span class="dot"></span><span class="col-title">Inscrite</span><span class="count">0</span></div><div class="stage-cards"></div></section>
+    </section>
+
+    <p class="stage-footer-note">Les âges, lieux et formats peuvent varier d’une session à l’autre. Les fiches servent de shortlist intelligente ; la page officielle de l’organisateur reste la référence avant paiement.</p>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    fetch('stages.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>[]).then(data=>{
+      window.__STAGES__=data;
+      const s=document.createElement('script');s.src='stages.js?v=1';document.body.appendChild(s);
+    });
+  </script>
+</body>
+</html>
