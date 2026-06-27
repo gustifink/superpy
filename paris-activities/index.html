@@ -70,6 +70,11 @@
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script>fetch('activities.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>[]).then(d=>{window.__INITIAL_ACTIVITIES__=d;const s=document.createElement('script');s.src='app.js';document.body.appendChild(s)})</script>
+  <script>
+    const CATALOG='https://raw.githubusercontent.com/gustifink/superpy/paris-activities/paris-activities/activities.json';
+    const nativeFetch=window.fetch.bind(window);
+    window.fetch=(url,options)=>nativeFetch(String(url).startsWith('activities.json')?CATALOG+'?v='+Date.now():url,options);
+    nativeFetch(CATALOG+'?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>[]).then(d=>{window.__INITIAL_ACTIVITIES__=d;const s=document.createElement('script');s.src='app.js';document.body.appendChild(s)});
+  </script>
 </body>
 </html>
