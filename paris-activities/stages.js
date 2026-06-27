@@ -23,7 +23,7 @@
   function esc(v=''){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
   function statusOf(stage){return state.statuses[stage.id]||'consider'}
   function matches(stage){
-    const hay=[stage.title,stage.provider,stage.category,stage.location,stage.why,stage.watch].join(' ').toLowerCase();
+    const hay=[stage.title,stage.provider,stage.category,stage.location,stage.price,stage.why,stage.watch].join(' ').toLowerCase();
     return (!query||hay.includes(query))&&(!category||stage.category===category);
   }
   function ordered(items,column){
@@ -50,10 +50,11 @@
       <h3>${esc(stage.title)}</h3>
       <p class="why">${esc(stage.why)}</p>
       <div class="stage-meta">
+        <div class="stage-meta-row"><strong>Prix</strong><span>${esc(stage.price||'À confirmer')}</span></div>
+        <div class="stage-meta-row"><strong>Lieu</strong><span>${esc(stage.location)}</span></div>
         <div class="stage-meta-row"><strong>Âge</strong><span>${esc(stage.age)}</span></div>
         <div class="stage-meta-row"><strong>Format</strong><span>${esc(stage.format)}</span></div>
         <div class="stage-meta-row"><strong>Période</strong><span>${esc(stage.timing)}</span></div>
-        <div class="stage-meta-row"><strong>Lieu</strong><span>${esc(stage.location)}</span></div>
       </div>
       <div class="stage-watch"><strong>À vérifier :</strong> ${esc(stage.watch)}</div>
       <div class="stage-actions">
