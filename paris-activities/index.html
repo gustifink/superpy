@@ -39,6 +39,18 @@
       <span class="tiny-status" id="syncStatus">Sélection éditée le 27 juin 2026</span>
     </section>
 
+    <section class="cinema-section" id="cinemaSection" aria-label="Nouvelles sorties cinéma">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Cinéma · nouveautés familiales</div>
+          <h2>Sorties des 14 derniers jours</h2>
+        </div>
+        <div class="cinema-note"><strong>Fête du Cinéma : 5 €</strong><span>du 28 juin au 1er juillet</span></div>
+      </div>
+      <p class="drag-hint">Glisse un film vers « À faire » ou « Prévues ». Les films plus anciens disparaissent automatiquement de cette rangée.</p>
+      <div class="cinema-list" id="cinemaList"></div>
+    </section>
+
     <section class="board" id="board" aria-label="Tableau des activités">
       <section class="column" data-column="available"><div class="col-head"><span class="dot"></span><span class="col-title">Disponibles</span><span class="count">0</span></div><div class="cards"></div></section>
       <section class="column" data-column="todo"><div class="col-head"><span class="dot"></span><span class="col-title">À faire</span><span class="count">0</span></div><div class="cards"></div></section>
@@ -71,10 +83,23 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    const CATALOG='https://raw.githubusercontent.com/gustifink/superpy/paris-activities/paris-activities/activities.json';
+    const ACTIVITY_CATALOG='https://raw.githubusercontent.com/gustifink/superpy/paris-activities/paris-activities/activities.json';
+    const CINEMA_CATALOG='https://raw.githubusercontent.com/gustifink/superpy/paris-activities/paris-activities/cinema.json';
     const nativeFetch=window.fetch.bind(window);
-    window.fetch=(url,options)=>nativeFetch(String(url).startsWith('activities.json')?CATALOG+'?v='+Date.now():url,options);
-    nativeFetch(CATALOG+'?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>[]).then(d=>{window.__INITIAL_ACTIVITIES__=d;const s=document.createElement('script');s.src='app.js';document.body.appendChild(s)});
+    window.fetch=(url,options)=>{
+      const value=String(url);
+      if(value.startsWith('activities.json')) return nativeFetch(ACTIVITY_CATALOG+'?v='+Date.now(),options);
+      if(value.startsWith('cinema.json')) return nativeFetch(CINEMA_CATALOG+'?v='+Date.now(),options);
+      return nativeFetch(url,options);
+    };
+    Promise.all([
+      nativeFetch(ACTIVITY_CATALOG+'?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>[]),
+      nativeFetch(CINEMA_CATALOG+'?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>[])
+    ]).then(([activities,cinema])=>{
+      window.__INITIAL_ACTIVITIES__=activities;
+      window.__INITIAL_CINEMA__=cinema;
+      const s=document.createElement('script');s.src='app.js?v=3';document.body.appendChild(s);
+    });
   </script>
 </body>
 </html>
